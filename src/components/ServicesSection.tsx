@@ -40,14 +40,18 @@ const ServicesSection: React.FC = () => {
   return (
     <section id="services" className="py-20 bg-optimusLightGray">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center">Szolgáltatásaink</h2>
-        <p className="section-subtitle text-center">
+        <h2 className="section-title text-center opacity-0 animate-fade-in" style={{ animationDelay: '0.2s' }}>Szolgáltatásaink</h2>
+        <p className="section-subtitle text-center opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
           Teljes körű ipari karbantartási megoldásokat kínálunk, amelyek növelik berendezései élettartamát és csökkentik a váratlan leállásokat
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
           {services.map((service, index) => (
-            <Card key={index} className="industry-card overflow-hidden border-none">
+            <Card 
+              key={index} 
+              className="industry-card overflow-hidden border-none opacity-0 animate-fade-in" 
+              style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+            >
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
                   <div className="mb-4 p-3 rounded-full bg-blue-50">

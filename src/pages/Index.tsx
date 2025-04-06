@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import HeroSection from '@/components/HeroSection';
 import ServicesSection from '@/components/ServicesSection';
@@ -9,6 +9,27 @@ import ContactSection from '@/components/ContactSection';
 import FooterSection from '@/components/FooterSection';
 
 const Index = () => {
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in');
+          entry.target.style.opacity = '1';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+
+    return () => {
+      document.querySelectorAll('section').forEach(section => {
+        observer.unobserve(section);
+      });
+    };
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
