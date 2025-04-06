@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Settings, Wrench, Factory, Calendar, Hammer, HardHat, Package, Cog } from 'lucide-react';
 
@@ -47,11 +47,46 @@ const services = [
 ];
 
 const ServicesSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cards = sectionRef.current?.querySelectorAll('.industry-card');
+            cards?.forEach((card, index) => {
+              setTimeout(() => {
+                (card as HTMLElement).style.opacity = '1';
+                card.classList.add('animate-fade-in');
+              }, index * 100);
+            });
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="services" className="py-20 bg-optimusLightGray">
+    <section 
+      id="services" 
+      ref={sectionRef} 
+      className="py-20 bg-optimusLightGray"
+    >
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center opacity-0 animate-fade-in" style={{ animationDelay: '0.2s' }}>Szolgáltatásaink</h2>
-        <p className="section-subtitle text-center opacity-0 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+        <h2 className="section-title text-center">Szolgáltatásaink</h2>
+        <p className="section-subtitle text-center">
           Teljes körű ipari karbantartási megoldásokat kínálunk, amelyek növelik berendezései élettartamát és csökkentik a váratlan leállásokat
         </p>
         
@@ -59,8 +94,7 @@ const ServicesSection: React.FC = () => {
           {services.map((service, index) => (
             <Card 
               key={index} 
-              className="industry-card overflow-hidden border-none opacity-0 animate-fade-in" 
-              style={{ animationDelay: `${0.4 + index * 0.1}s` }}
+              className="industry-card overflow-hidden border-none opacity-0 transition-all duration-500"
             >
               <CardContent className="p-6">
                 <div className="flex flex-col items-center text-center">
