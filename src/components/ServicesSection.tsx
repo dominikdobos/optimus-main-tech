@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Settings, Wrench, Factory, Calendar, Hammer, HardHat } from 'lucide-react';
+import { Settings, Wrench, Factory, Calendar, Hammer, HardHat, Package, Cog } from 'lucide-react';
 
 const services = [
   {
@@ -23,6 +23,16 @@ const services = [
     icon: <Calendar className="h-12 w-12 text-optimusBlue" />,
     title: "Tervezett karbantartás",
     description: "Előre ütemezett karbantartási munkák, amelyek minimalizálják az állásidőt és maximalizálják a termelékenységet."
+  },
+  {
+    icon: <Package className="h-12 w-12 text-optimusBlue" />,
+    title: "Alkatrész beszerzés",
+    description: "Eredeti és helyettesítő alkatrészek gyors és megbízható beszerzése minden típusú ipari berendezéshez."
+  },
+  {
+    icon: <Cog className="h-12 w-12 text-optimusBlue" />,
+    title: "Alkatrész gyártás",
+    description: "Egyedi és nehezen beszerezhető alkatrészek gyártása precíziós technológiával, rövid határidővel."
   },
   {
     icon: <Settings className="h-12 w-12 text-optimusBlue" />,
