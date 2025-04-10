@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
+import type { Database } from "@/integrations/supabase/types";
 
 // Form validation schema
 const contactFormSchema = z.object({
@@ -76,7 +77,7 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Save contact to database
+      // Type-safe insert for the contacts table
       const { error: dbError } = await supabase
         .from('contacts')
         .insert({
