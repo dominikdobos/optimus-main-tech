@@ -16,6 +16,7 @@ const contactFormSchema = z.object({
   phone: z.string().min(6, { message: "Telefonszám megadása kötelező" }),
   service: z.string().optional(),
   message: z.string().min(3, { message: "Üzenet megadása kötelező" }),
+  contactEmail: z.string().min(1, { message: "Címzett kiválasztása kötelező" }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -30,6 +31,7 @@ const ContactSection: React.FC = () => {
     phone: '',
     service: '',
     message: '',
+    contactEmail: 'kozponti',
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormValues, string>>>({});
 
@@ -37,7 +39,6 @@ const ContactSection: React.FC = () => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
     
-    // Clear error for this field when user starts typing
     if (errors[name as keyof ContactFormValues]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -61,6 +62,15 @@ const ContactSection: React.FC = () => {
     }
   };
 
+  const getRecipientEmail = (): string => {
+    switch (formValues.contactEmail) {
+      case 'kozponti': return 'optimusmaintech@omtkft.hu';
+      case 'dobos': return 'r.dobos@omtkft.hu';
+      case 'rotariu': return 'cs.rotariu@omtkft.hu';
+      default: return 'info@omtkft.hu';
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -76,7 +86,6 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Type-safe insert for the contacts table
       const { error: dbError } = await supabase
         .from('contacts')
         .insert({
@@ -90,20 +99,22 @@ const ContactSection: React.FC = () => {
 
       if (dbError) throw new Error(dbError.message);
 
-      // Send email via edge function
+      const recipientEmail = getRecipientEmail();
+
       const { error } = await supabase.functions.invoke('send-contact-email', {
-        body: formValues,
+        body: {
+          ...formValues,
+          recipientEmail: recipientEmail
+        },
       });
 
       if (error) throw error;
 
-      // Success
       toast({
         title: "Sikeres küldés!",
         description: "Köszönjük megkeresését, hamarosan válaszolunk!",
       });
 
-      // Reset form
       setFormValues({
         name: '',
         company: '',
@@ -111,6 +122,7 @@ const ContactSection: React.FC = () => {
         phone: '',
         service: '',
         message: '',
+        contactEmail: 'kozponti',
       });
     } catch (error: any) {
       console.error("Form submission error:", error);
@@ -124,7 +136,6 @@ const ContactSection: React.FC = () => {
     }
   };
 
-  
   return (
     <section id="contact" className="py-20 bg-optimusLightGray">
       <div className="container mx-auto px-4">
@@ -198,28 +209,30 @@ const ContactSection: React.FC = () => {
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
                 >
                   <option value="">Válasszon szolgáltatást</option>
-                  <option value="uzemvitelszeru_karbantartas">
-                    Üzemvitelszerű karbantartás
-                  </option>
+                  <option value="uzemvitelszeru_karbantartas">Üzemvitelszerű karbantartás</option>
                   <option value="nagyjavitas">Nagyjavítás</option>
-                  <option value="termeloberendezesek">
-                    Termelőberendezések karbantartása
-                  </option>
+                  <option value="termeloberendezesek">Termelőberendezések karbantartása</option>
                   <option value="tervezett">Tervezett karbantartás</option>
-                  <option value="alkatresz_beszerzes">
-                    Alkatrész beszerzés
-                  </option>
+                  <option value="alkatresz_beszerzes">Alkatrész beszerzés</option>
                   <option value="Alkatrész gyártás">Alkatrész gyártás</option>
-                  <option value="diagnostic">
-                    Állapotfelmérés és diagnosztika
-                  </option>
-                  <option value="installation">
-                    Géptelepítés és beüzemelés
-                  </option>
-                  <option value="tpm_rendszerek">
-                    TPM rendszerek kialakítása
-                  </option>
+                  <option value="diagnostic">Állapotfelmérés és diagnosztika</option>
+                  <option value="installation">Géptelepítés és beüzemelés</option>
+                  <option value="tpm_rendszerek">TPM rendszerek kialakítása</option>
                   <option value="other">Egyéb</option>
+                </select>
+              </div>
+              <div className="mb-6">
+                <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email címzett</label>
+                <select
+                  id="contactEmail"
+                  name="contactEmail"
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
+                  value={formValues.contactEmail}
+                  onChange={handleInputChange}
+                >
+                  <option value="kozponti">optimusmaintech@omtkft.hu</option>
+                  <option value="dobos">r.dobos@omtkft.hu</option>
+                  <option value="rotariu">cs.rotariu@omtkft.hu</option>
                 </select>
               </div>
               <div className="mb-6">
