@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,20 +25,26 @@ const ContactSection: React.FC = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState<ContactFormValues>({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    service: '',
-    message: '',
-    contactEmail: 'kozponti',
+    name: "",
+    company: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+    contactEmail: "kozponti",
   });
-  const [errors, setErrors] = useState<Partial<Record<keyof ContactFormValues, string>>>({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof ContactFormValues, string>>
+  >({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
-    
+
     if (errors[name as keyof ContactFormValues]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -64,10 +70,14 @@ const ContactSection: React.FC = () => {
 
   const getRecipientEmail = (): string => {
     switch (formValues.contactEmail) {
-      case 'kozponti': return 'optimusmaintech@omtkft.hu';
-      case 'dobos': return 'r.dobos@omtkft.hu';
-      case 'rotariu': return 'cs.rotariu@omtkft.hu';
-      default: return 'info@omtkft.hu';
+      case "kozponti":
+        return "optimusmaintech@omtkft.hu";
+      case "dobos":
+        return "r.dobos@omtkft.hu";
+      case "rotariu":
+        return "cs.rotariu@omtkft.hu";
+      default:
+        return "info@omtkft.hu";
     }
   };
 
@@ -86,25 +96,23 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { error: dbError } = await supabase
-        .from('contacts')
-        .insert({
-          name: formValues.name,
-          company: formValues.company || null,
-          email: formValues.email,
-          phone: formValues.phone,
-          service_type: formValues.service || null,
-          message: formValues.message,
-        });
+      const { error: dbError } = await supabase.from("contacts").insert({
+        name: formValues.name,
+        company: formValues.company || null,
+        email: formValues.email,
+        phone: formValues.phone,
+        service_type: formValues.service || null,
+        message: formValues.message,
+      });
 
       if (dbError) throw new Error(dbError.message);
 
       const recipientEmail = getRecipientEmail();
 
-      const { error } = await supabase.functions.invoke('send-contact-email', {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
         body: {
           ...formValues,
-          recipientEmail: recipientEmail
+          recipientEmail: recipientEmail,
         },
       });
 
@@ -116,19 +124,20 @@ const ContactSection: React.FC = () => {
       });
 
       setFormValues({
-        name: '',
-        company: '',
-        email: '',
-        phone: '',
-        service: '',
-        message: '',
-        contactEmail: 'kozponti',
+        name: "",
+        company: "",
+        email: "",
+        phone: "",
+        service: "",
+        message: "",
+        contactEmail: "kozponti",
       });
     } catch (error: any) {
       console.error("Form submission error:", error);
       toast({
         title: "Hiba történt",
-        description: "Az üzenetet nem sikerült elküldeni. Kérjük, próbálja újra később vagy vegye fel velünk a kapcsolatot telefonon.",
+        description:
+          "Az üzenetet nem sikerült elküldeni. Kérjük, próbálja újra később vagy vegye fel velünk a kapcsolatot telefonon.",
         variant: "destructive",
       });
     } finally {
@@ -147,82 +156,135 @@ const ContactSection: React.FC = () => {
 
         <div className="flex flex-col lg:flex-row gap-10 mt-12">
           <div className="lg:w-1/2">
-            <form className="bg-white p-8 rounded-lg shadow-lg" onSubmit={handleSubmit}>
+            <form
+              className="bg-white p-8 rounded-lg shadow-lg"
+              onSubmit={handleSubmit}
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Név *</label>
-                  <Input 
-                    id="name" 
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Név *
+                  </label>
+                  <Input
+                    id="name"
                     name="name"
                     value={formValues.name}
                     onChange={handleInputChange}
-                    placeholder="Az Ön neve" 
+                    placeholder="Az Ön neve"
                     className={errors.name ? "border-red-500" : ""}
                   />
-                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">Cég</label>
-                  <Input 
-                    id="company" 
+                  <label
+                    htmlFor="company"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Cég
+                  </label>
+                  <Input
+                    id="company"
                     name="company"
                     value={formValues.company}
                     onChange={handleInputChange}
-                    placeholder="Cég neve" 
+                    placeholder="Cég neve"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                  <Input 
-                    id="email" 
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Email *
+                  </label>
+                  <Input
+                    id="email"
                     name="email"
-                    type="email" 
+                    type="email"
                     value={formValues.email}
                     onChange={handleInputChange}
-                    placeholder="pl. nev@ceg.hu" 
+                    placeholder="pl. nev@ceg.hu"
                     className={errors.email ? "border-red-500" : ""}
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+                  )}
                 </div>
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Telefonszám *</label>
-                  <Input 
-                    id="phone" 
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    Telefonszám *
+                  </label>
+                  <Input
+                    id="phone"
                     name="phone"
                     value={formValues.phone}
                     onChange={handleInputChange}
-                    placeholder="+36 30 123 4567" 
+                    placeholder="+36 30 123 4567"
                     className={errors.phone ? "border-red-500" : ""}
                   />
-                  {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                  {errors.phone && (
+                    <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+                  )}
                 </div>
               </div>
               <div className="mb-6">
-                <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-1">Szolgáltatás típusa</label>
-                <select 
-                  id="service" 
+                <label
+                  htmlFor="service"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Szolgáltatás típusa
+                </label>
+                <select
+                  id="service"
                   name="service"
                   value={formValues.service}
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
                 >
                   <option value="">Válasszon szolgáltatást</option>
-                  <option value="uzemvitelszeru_karbantartas">Üzemvitelszerű karbantartás</option>
-                  <option value="nagyjavitas">Nagyjavítás</option>
-                  <option value="termeloberendezesek">Termelőberendezések karbantartása</option>
-                  <option value="tervezett">Tervezett karbantartás</option>
-                  <option value="alkatresz_beszerzes">Alkatrész beszerzés</option>
+                  <option value="Üzemvitelszerű karbantartás">
+                    Üzemvitelszerű karbantartás
+                  </option>
+                  <option value="Nagyjavítás">Nagyjavítás</option>
+                  <option value="Termelőberendezések karbantartása">
+                    Termelőberendezések karbantartása
+                  </option>
+                  <option value="Tervezett karbantartás">
+                    Tervezett karbantartás
+                  </option>
+                  <option value="Alkatrész beszerzés">
+                    Alkatrész beszerzés
+                  </option>
                   <option value="Alkatrész gyártás">Alkatrész gyártás</option>
-                  <option value="diagnostic">Állapotfelmérés és diagnosztika</option>
-                  <option value="installation">Géptelepítés és beüzemelés</option>
-                  <option value="tpm_rendszerek">TPM rendszerek kialakítása</option>
-                  <option value="other">Egyéb</option>
+                  <option value="Állapotfelmérés és diagnosztika">
+                    Állapotfelmérés és diagnosztika
+                  </option>
+                  <option value="Géptelepítés és beüzemelés">
+                    Géptelepítés és beüzemelés
+                  </option>
+                  <option value=">TPM rendszerek kialakítása">
+                    TPM rendszerek kialakítása
+                  </option>
+                  <option value="Egyéb">Egyéb</option>
                 </select>
               </div>
               <div className="mb-6">
-                <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email címzett</label>
+                <label
+                  htmlFor="contactEmail"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Email címzett
+                </label>
                 <select
                   id="contactEmail"
                   name="contactEmail"
@@ -236,20 +298,27 @@ const ContactSection: React.FC = () => {
                 </select>
               </div>
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Üzenet *</label>
-                <Textarea 
-                  id="message" 
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Üzenet *
+                </label>
+                <Textarea
+                  id="message"
                   name="message"
                   value={formValues.message}
                   onChange={handleInputChange}
-                  placeholder="Kérjük, írja le részletesen, miben segíthetünk..." 
-                  rows={5} 
+                  placeholder="Kérjük, írja le részletesen, miben segíthetünk..."
+                  rows={5}
                   className={errors.message ? "border-red-500" : ""}
                 />
-                {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                {errors.message && (
+                  <p className="text-red-500 text-xs mt-1">{errors.message}</p>
+                )}
               </div>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="btn-primary-gradient w-full"
                 disabled={isSubmitting}
               >
