@@ -17,6 +17,7 @@ interface ContactFormData {
   phone: string;
   service?: string;
   message: string;
+  recipientEmail: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -27,7 +28,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const formData: ContactFormData = await req.json();
-    const { name, company, email, phone, service, message } = formData;
+    const { name, company, email, phone, service, message, recipientEmail } = formData;
 
     console.log("Sending email with form data:", formData);
 
@@ -39,7 +40,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const emailResponse = await resend.emails.send({
       from: "Optimus MainTech <info@omtkft.hu>", // Change this to your verified domain
-      to: "info@omtkft.hu", // Default receiver
+      to: recipientEmail, // Use the selected recipient email
       subject: "Új kapcsolatfelvételi űrlap - Optimus MainTech",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

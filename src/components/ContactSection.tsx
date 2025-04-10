@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ const contactFormSchema = z.object({
   phone: z.string().min(6, { message: "Telefonszám megadása kötelező" }),
   service: z.string().optional(),
   message: z.string().min(3, { message: "Üzenet megadása kötelező" }),
+  contactEmail: z.string().min(1, { message: "Címzett kiválasztása kötelező" }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -30,6 +32,7 @@ const ContactSection: React.FC = () => {
     phone: '',
     service: '',
     message: '',
+    contactEmail: 'kozponti', // Default value
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormValues, string>>>({});
 
@@ -58,6 +61,16 @@ const ContactSection: React.FC = () => {
         setErrors(newErrors);
       }
       return false;
+    }
+  };
+
+  // Map email selection to actual email addresses
+  const getRecipientEmail = (): string => {
+    switch (formValues.contactEmail) {
+      case 'kozponti': return 'optimusmaintech@omtkft.hu';
+      case 'dobos': return 'r.dobos@omtkft.hu';
+      case 'rotariu': return 'cs.rotariu@omtkft.hu';
+      default: return 'info@omtkft.hu';
     }
   };
 
@@ -90,9 +103,15 @@ const ContactSection: React.FC = () => {
 
       if (dbError) throw new Error(dbError.message);
 
-      // Send email via edge function
+      // Get the email address of the selected recipient
+      const recipientEmail = getRecipientEmail();
+
+      // Send email via edge function with new recipient
       const { error } = await supabase.functions.invoke('send-contact-email', {
-        body: formValues,
+        body: {
+          ...formValues,
+          recipientEmail: recipientEmail
+        },
       });
 
       if (error) throw error;
@@ -111,6 +130,7 @@ const ContactSection: React.FC = () => {
         phone: '',
         service: '',
         message: '',
+        contactEmail: 'kozponti',
       });
     } catch (error: any) {
       console.error("Form submission error:", error);
@@ -197,11 +217,30 @@ const ContactSection: React.FC = () => {
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
                 >
                   <option value="">Válasszon szolgáltatást</option>
-                  <option value="maintenance">Üzemvitelszerű karbantartás</option>
-                  <option value="repair">Nagyjavítás</option>
+                  <option value="uzemvitelszeru_karbantartas">Üzemvitelszerű karbantartás</option>
+                  <option value="nagyjavitas">Nagyjavítás</option>
+                  <option value="termeloberendezesek">Termelőberendezések karbantartása</option>
+                  <option value="tervezett">Tervezett karbantartás</option>
+                  <option value="alkatresz_beszerzes">Alkatrész beszerzés</option>
+                  <option value="Alkatrész gyártás">Alkatrész gyártás</option>
                   <option value="diagnostic">Állapotfelmérés és diagnosztika</option>
                   <option value="installation">Géptelepítés és beüzemelés</option>
+                  <option value="tpm_rendszerek">TPM rendszerek kialakítása</option>
                   <option value="other">Egyéb</option>
+                </select>
+              </div>
+              <div className="mb-6">
+                <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700 mb-1">Email címzett</label>
+                <select
+                  id="contactEmail"
+                  name="contactEmail"
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
+                  value={formValues.contactEmail}
+                  onChange={handleInputChange}
+                >
+                  <option value="kozponti">optimusmaintech@omtkft.hu</option>
+                  <option value="dobos">r.dobos@omtkft.hu</option>
+                  <option value="rotariu">cs.rotariu@omtkft.hu</option>
                 </select>
               </div>
               <div className="mb-6">
