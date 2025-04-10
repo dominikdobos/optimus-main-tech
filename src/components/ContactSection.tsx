@@ -355,7 +355,7 @@ const ContactSection: React.FC = () => {
                   <Mail className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
                     <p className="font-medium text-optimusDarkGray">Email</p>
-                    <p className="text-gray-600">info@omtkft.hu</p>
+                    <p className="text-gray-600">optimusmaintech@omtkft.hu</p>
                   </div>
                 </div>
                 <div className="flex items-start">
