@@ -38,7 +38,8 @@ const handler = async (req: Request): Promise<Response> => {
     // Company is optional
     const companyInfo = company ? `<p><strong>Cég:</strong> ${company}</p>` : "";
 
-    const emailResponse = await resend.emails.send({
+    // Send detailed form data to the selected recipient
+    const emailToRecipient = await resend.emails.send({
       from: "Optimus MainTech <info@omtkft.hu>", // Change this to your verified domain
       to: recipientEmail, // Use the selected recipient email
       subject: "Új kapcsolatfelvételi űrlap - Optimus MainTech",
@@ -65,13 +66,46 @@ const handler = async (req: Request): Promise<Response> => {
           </p>
         </div>
       `,
-      // Send a confirmation to the person who filled out the form
-      cc: [email],
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    // Send confirmation email to the form submitter
+    const confirmationEmail = await resend.emails.send({
+      from: "Optimus MainTech <info@omtkft.hu>", // Change this to your verified domain
+      to: email, // Send to the person who filled out the form
+      subject: "Köszönjük megkeresését - Optimus MainTech",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #2563eb;">Köszönjük megkeresését!</h1>
+          <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
+          
+          <p>Kedves ${name}!</p>
+          
+          <p>Köszönjük, hogy felvette velünk a kapcsolatot. Megkaptuk üzenetét, és hamarosan válaszolunk rá.</p>
+          
+          <p>Az Ön által választott szolgáltatás: ${serviceType}</p>
+          
+          <p>Üdvözlettel,<br>Az Optimus MainTech csapata</p>
+          
+          <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
+          <p style="color: #6b7280; font-size: 14px;">
+            Ez egy automatikus visszaigazoló email, kérjük, ne válaszoljon rá.
+          </p>
+        </div>
+      `,
+    });
 
-    return new Response(JSON.stringify({ success: true, data: emailResponse }), {
+    console.log("Emails sent successfully:", {
+      recipient: emailToRecipient,
+      confirmation: confirmationEmail
+    });
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      data: {
+        recipientEmail: emailToRecipient,
+        confirmationEmail: confirmationEmail
+      }
+    }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

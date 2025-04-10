@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +31,7 @@ const ContactSection: React.FC = () => {
     phone: '',
     service: '',
     message: '',
-    contactEmail: 'kozponti', // Default value
+    contactEmail: 'kozponti',
   });
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormValues, string>>>({});
 
@@ -40,7 +39,6 @@ const ContactSection: React.FC = () => {
     const { name, value } = e.target;
     setFormValues((prev) => ({ ...prev, [name]: value }));
     
-    // Clear error for this field when user starts typing
     if (errors[name as keyof ContactFormValues]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -64,7 +62,6 @@ const ContactSection: React.FC = () => {
     }
   };
 
-  // Map email selection to actual email addresses
   const getRecipientEmail = (): string => {
     switch (formValues.contactEmail) {
       case 'kozponti': return 'optimusmaintech@omtkft.hu';
@@ -89,7 +86,6 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Type-safe insert for the contacts table
       const { error: dbError } = await supabase
         .from('contacts')
         .insert({
@@ -103,10 +99,8 @@ const ContactSection: React.FC = () => {
 
       if (dbError) throw new Error(dbError.message);
 
-      // Get the email address of the selected recipient
       const recipientEmail = getRecipientEmail();
 
-      // Send email via edge function with new recipient
       const { error } = await supabase.functions.invoke('send-contact-email', {
         body: {
           ...formValues,
@@ -116,13 +110,11 @@ const ContactSection: React.FC = () => {
 
       if (error) throw error;
 
-      // Success
       toast({
         title: "Sikeres küldés!",
         description: "Köszönjük megkeresését, hamarosan válaszolunk!",
       });
 
-      // Reset form
       setFormValues({
         name: '',
         company: '',
@@ -144,7 +136,6 @@ const ContactSection: React.FC = () => {
     }
   };
 
-  
   return (
     <section id="contact" className="py-20 bg-optimusLightGray">
       <div className="container mx-auto px-4">
