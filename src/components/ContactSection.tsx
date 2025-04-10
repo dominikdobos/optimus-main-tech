@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -125,6 +124,7 @@ const ContactSection: React.FC = () => {
     }
   };
 
+  
   return (
     <section id="contact" className="py-20 bg-optimusLightGray">
       <div className="container mx-auto px-4">
