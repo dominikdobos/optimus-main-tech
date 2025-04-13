@@ -48,7 +48,7 @@ const handler = async (req: Request): Promise<Response> => {
       subject: "Új kapcsolatfelvételiűrlap - Optimus Main-Tech Kft.",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #2563eb;">Új üzenet érkezett a weboldalról</h1>
+          <h1 style="color: #2563eb;">Új kapcsolatfelvételi kérés érkezett a weboldalról</h1>
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           
           <h2 style="color: #4b5563;">Kapcsolatfelvételi adatok:</h2>
@@ -65,7 +65,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="color: #6b7280; font-size: 14px;">
-            Ez az email automatikusan lett elküldve az Optimus Main-Tech Kft. weboldaliűrlapról.
+            Ez az email automatikusan lett elküldve az Optimus Main-Tech Kft. weboldali űrlapról.
           </p>
         </div>
       `,

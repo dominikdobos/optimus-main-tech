@@ -270,7 +270,7 @@ const ContactSection: React.FC = () => {
                   <option value="Géptelepítés és beüzemelés">
                     Géptelepítés és beüzemelés
                   </option>
-                  <option value=">TPM rendszerek kialakítása">
+                  <option value="TPM rendszerek kialakítása">
                     TPM rendszerek kialakítása
                   </option>
                   <option value="Egyéb">Egyéb</option>
