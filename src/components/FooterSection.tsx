@@ -96,8 +96,11 @@ const FooterSection: React.FC = () => {
           <div>
             <h3 className="text-lg font-bold mb-4">Elérhetőség</h3>
             <address className="not-italic text-gray-300">
-              <p className="mb-2">1117 Budapest, Infopark sétány 1.</p>
-              <p className="mb-2">Tel: +36 1 123 4567</p>
+              <p className="mb-2">2314 Halásztelek, Ilona utca 53.</p>
+              <p className="mb-2">Tel: +36 20 525 4621</p>
+              <p className="mb-2">
+                <span className="opacity-0">Tel:</span> +36 20 594 1551
+              </p>
               <p className="mb-2">Email: optimusmaintech@omtkft.hu</p>
             </address>
           </div>

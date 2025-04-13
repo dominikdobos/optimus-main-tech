@@ -338,7 +338,7 @@ const ContactSection: React.FC = () => {
                   <div>
                     <p className="font-medium text-optimusDarkGray">Cím</p>
                     <p className="text-gray-600">
-                      1117 Budapest, Infopark sétány 1.
+                      2314 Halásztelek, Ilona utca 53.
                     </p>
                   </div>
                 </div>
@@ -346,9 +346,10 @@ const ContactSection: React.FC = () => {
                   <Phone className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
                     <p className="font-medium text-optimusDarkGray">
-                      Telefonszám
+                      Telefonszámok
                     </p>
-                    <p className="text-gray-600">+36 1 123 4567</p>
+                    <p className="text-gray-600">+36 20 525 4621</p>
+                    <p className="text-gray-600">+36 20 594 1551</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -362,17 +363,13 @@ const ContactSection: React.FC = () => {
                   <Clock className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
                     <p className="font-medium text-optimusDarkGray">
-                      Nyitvatartás
+                      Felveheti a kapcsolatot velünk
                     </p>
                     <p className="text-gray-600">
                       Hétfő - Péntek: 8:00 - 17:00
                     </p>
                     <p className="text-gray-600">
-                      Hétvégén és ünnepnapokon zárva
-                    </p>
-                    <p className="text-gray-600 mt-2">
-                      24/7 sürgősségi karbantartás elérhető szerződött
-                      partnereknek
+                      Hétvégén és ünnepnapokon nem elérhető
                     </p>
                   </div>
                 </div>

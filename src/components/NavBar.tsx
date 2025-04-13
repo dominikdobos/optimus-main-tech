@@ -11,35 +11,35 @@ const NavBar: React.FC = () => {
 
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-optimusBlue to-optimusGreen bg-clip-text text-transparent">
-            Optimus Main Tech
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-optimusBlue to-optimusGreen bg-clip-text text-transparent">
+            Optimus Main Tech Kft.
           </h1>
         </div>
 
         <div className="hidden lg:flex space-x-8">
           <a
             href="#home"
-            className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
+            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
           >
             Kezdőlap
           </a>
           <a
             href="#services"
-            className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
+            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
           >
             Szolgáltatások
           </a>
           <a
             href="#about"
-            className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
+            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
           >
             Rólunk
           </a>
           <a
             href="#contact"
-            className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
+            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
           >
             Kapcsolat
           </a>
@@ -47,7 +47,7 @@ const NavBar: React.FC = () => {
 
         <div className="hidden lg:block">
           <a href="#contact">
-            <Button className="btn-primary-gradient hover:shadow-xl hover:bg-black transition duration-400">
+            <Button className="btn-primary-gradient text-md hover:shadow-xl hover:bg-black transition duration-400">
               Lépj kapcsolatba!
             </Button>
           </a>
