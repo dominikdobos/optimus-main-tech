@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
@@ -28,21 +27,24 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     const formData: ContactFormData = await req.json();
-    const { name, company, email, phone, service, message, recipientEmail } = formData;
+    const { name, company, email, phone, service, message, recipientEmail } =
+      formData;
 
     console.log("Sending email with form data:", formData);
 
     // Format service type for readability
     const serviceType = service || "Nem választott szolgáltatást";
-    
+
     // Company is optional
-    const companyInfo = company ? `<p><strong>Cég:</strong> ${company}</p>` : "";
+    const companyInfo = company
+      ? `<p><strong>Cég:</strong> ${company}</p>`
+      : "";
 
     // Send detailed form data to the selected recipient
     const emailToRecipient = await resend.emails.send({
-      from: "Optimus MainTech <info@omtkft.hu>", // Change this to your verified domain
+      from: "Optimus Main Tech <info@omtkft.hu>", // Change this to your verified domain
       to: recipientEmail, // Use the selected recipient email
-      subject: "Új kapcsolatfelvételi űrlap - Optimus MainTech",
+      subject: "Új kapcsolatfelvételi űrlap - Optimus Main Tech",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Új üzenet érkezett a weboldalról</h1>
@@ -62,7 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="color: #6b7280; font-size: 14px;">
-            Ez az email automatikusan lett elküldve az Optimus MainTech weboldali űrlapról.
+            Ez az email automatikusan lett elküldve az Optimus Main Tech weboldali űrlapról.
           </p>
         </div>
       `,
@@ -70,9 +72,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to the form submitter
     const confirmationEmail = await resend.emails.send({
-      from: "Optimus MainTech <info@omtkft.hu>", // Change this to your verified domain
+      from: "Optimus Main Tech <info@omtkft.hu>", // Change this to your verified domain
       to: email, // Send to the person who filled out the form
-      subject: "Köszönjük megkeresését - Optimus MainTech",
+      subject: "Köszönjük megkeresését - Optimus Main Tech",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Köszönjük megkeresését!</h1>
@@ -84,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p>Az Ön által választott szolgáltatás: ${serviceType}</p>
           
-          <p>Üdvözlettel,<br>Az Optimus MainTech csapata</p>
+          <p>Üdvözlettel,<br>Az Optimus Main Tech csapata</p>
           
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="color: #6b7280; font-size: 14px;">
@@ -96,22 +98,25 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Emails sent successfully:", {
       recipient: emailToRecipient,
-      confirmation: confirmationEmail
+      confirmation: confirmationEmail,
     });
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      data: {
-        recipientEmail: emailToRecipient,
-        confirmationEmail: confirmationEmail
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: {
+          recipientEmail: emailToRecipient,
+          confirmationEmail: confirmationEmail,
+        },
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders,
+        },
       }
-    }), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-        ...corsHeaders,
-      },
-    });
+    );
   } catch (error: any) {
     console.error("Error sending email:", error);
     return new Response(

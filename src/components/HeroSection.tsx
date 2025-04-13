@@ -19,11 +19,11 @@ const HeroSection: React.FC = () => {
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             Ipari berendezések professzionális karbantartása
           </h1>
-          <p className="text-lg md:text-xl mb-8 text-gray-100">
+          <p className="text-lg md:text-xl mb-8 text-gray-100 ">
             Az <span className="font-bold">Optimus Main Tech Kft.</span>{" "}
-            szakértő megoldásokat kínál az ipari berendezések üzemvitelszerű és
-            nagy karbantartásának teljes folyamatára, hogy üzeme folyamatosan és
-            hatékonyan működhessen.
+            megvalósítható megoldásokat kínálunk ipari berendezések
+            üzemvitelszerű és nagy karbantartások teljes folyamatára. Célunk,
+            hogy üzeme folyamatosan és hatékonyan működhessen.
           </p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <a href="#contact">

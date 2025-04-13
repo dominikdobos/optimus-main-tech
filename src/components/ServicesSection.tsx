@@ -65,7 +65,7 @@ const services = [
     icon: <Warehouse className="h-12 w-12 text-optimusBlue" />,
     title: "TPM Rendszerek kialakítása",
     description:
-      "Kiépítése egy átfogó műszaki és menedzsmentből álló rendszernek, melynek célja, hogy maximálisan ki lehessen használni a karbantartásban lévő erőforrásokat.",
+      "Kiépítése egy átfogó, működő rendszernek, melynek célja, hogy maximálisan ki lehessen használni a karbantartásban lévő erőforrásokat.",
   },
 ];
 
