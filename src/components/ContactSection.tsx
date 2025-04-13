@@ -72,12 +72,10 @@ const ContactSection: React.FC = () => {
     switch (formValues.contactEmail) {
       case "kozponti":
         return "optimusmaintech@omtkft.hu";
-      case "dobos":
-        return "r.dobos@omtkft.hu";
       case "rotariu":
         return "cs.rotariu@omtkft.hu";
       default:
-        return "info@omtkft.hu";
+        return "optimusmaintech@omtkft.hu";
     }
   };
 
@@ -293,7 +291,6 @@ const ContactSection: React.FC = () => {
                   onChange={handleInputChange}
                 >
                   <option value="kozponti">optimusmaintech@omtkft.hu</option>
-                  <option value="dobos">r.dobos@omtkft.hu</option>
                   <option value="rotariu">cs.rotariu@omtkft.hu</option>
                 </select>
               </div>
