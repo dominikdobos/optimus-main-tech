@@ -110,26 +110,6 @@ const FooterSection: React.FC = () => {
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
             © {currentYear} Optimus Main Tech Kft. Minden jog fenntartva.
           </p>
-          <div className="flex space-x-6">
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white transition duration-300"
-            >
-              Adatvédelmi irányelvek
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white transition duration-300"
-            >
-              ÁSZF
-            </a>
-            <a
-              href="#"
-              className="text-gray-400 hover:text-white transition duration-300"
-            >
-              Impresszum
-            </a>
-          </div>
         </div>
       </div>
     </footer>
