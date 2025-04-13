@@ -1,3 +1,4 @@
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { Resend } from "npm:resend@2.0.0";
 
@@ -42,9 +43,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send detailed form data to the selected recipient
     const emailToRecipient = await resend.emails.send({
-      from: "Optimus Main Tech <info@omtkft.hu>", // Change this to your verified domain
+      from: "Optimus Main Tech <info@omtkft.hu>", // Changed from MainTech to Main Tech
       to: recipientEmail, // Use the selected recipient email
-      subject: "Új kapcsolatfelvételi űrlap - Optimus Main Tech",
+      subject: "Új kapcsolatfelvételi űrlap - Optimus Main Tech", // Changed from MainTech to Main Tech
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Új üzenet érkezett a weboldalról</h1>
@@ -72,9 +73,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to the form submitter
     const confirmationEmail = await resend.emails.send({
-      from: "Optimus Main Tech <info@omtkft.hu>", // Change this to your verified domain
+      from: "Optimus Main Tech <info@omtkft.hu>", // Changed from MainTech to Main Tech
       to: email, // Send to the person who filled out the form
-      subject: "Köszönjük megkeresését - Optimus Main Tech",
+      subject: "Köszönjük megkeresését - Optimus Main Tech", // Changed from MainTech to Main Tech
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Köszönjük megkeresését!</h1>
