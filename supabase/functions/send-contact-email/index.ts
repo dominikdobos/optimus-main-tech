@@ -43,9 +43,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send detailed form data to the selected recipient
     const emailToRecipient = await resend.emails.send({
-      from: "Optimus Main Tech <info@omtkft.hu>", // Changed from MainTech to Main Tech
-      to: recipientEmail, // Use the selected recipient email
-      subject: "Új kapcsolatfelvételi űrlap - Optimus Main Tech", // Changed from MainTech to Main Tech
+      from: "Optimus Main-Tech Kft. <info@omtkft.hu>",
+      to: recipientEmail,
+      subject: "Új kapcsolatfelvételiűrlap - Optimus Main-Tech Kft.",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Új üzenet érkezett a weboldalról</h1>
@@ -65,7 +65,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="color: #6b7280; font-size: 14px;">
-            Ez az email automatikusan lett elküldve az Optimus Main Tech weboldali űrlapról.
+            Ez az email automatikusan lett elküldve az Optimus Main-Tech Kft. weboldaliűrlapról.
           </p>
         </div>
       `,
@@ -73,9 +73,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to the form submitter
     const confirmationEmail = await resend.emails.send({
-      from: "Optimus Main Tech <info@omtkft.hu>", // Changed from MainTech to Main Tech
-      to: email, // Send to the person who filled out the form
-      subject: "Köszönjük megkeresését - Optimus Main Tech", // Changed from MainTech to Main Tech
+      from: "Optimus Main-Tech Kft. <info@omtkft.hu>",
+      to: email,
+      subject: "Köszönjük megkeresését - Optimus Main-Tech Kft.",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #2563eb;">Köszönjük megkeresését!</h1>
@@ -87,7 +87,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <p>Az Ön által választott szolgáltatás: ${serviceType}</p>
           
-          <p>Üdvözlettel,<br>Az Optimus Main Tech csapata</p>
+          <p>Üdvözlettel,<br>Az Optimus Main-Tech Kft. csapata</p>
           
           <hr style="border: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="color: #6b7280; font-size: 14px;">
