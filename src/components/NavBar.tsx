@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link as ScrollLink } from "react-scroll";
+
+const navItems = [
+  { label: "Kezdőlap", to: "home" },
+  { label: "Szolgáltatások", to: "services" },
+  { label: "Rólunk", to: "about" },
+  { label: "Kapcsolat", to: "contact" },
+];
 
 const NavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,38 +27,28 @@ const NavBar: React.FC = () => {
         </div>
 
         <div className="hidden lg:flex space-x-8">
-          <a
-            href="#home"
-            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
-          >
-            Kezdőlap
-          </a>
-          <a
-            href="#services"
-            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
-          >
-            Szolgáltatások
-          </a>
-          <a
-            href="#about"
-            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
-          >
-            Rólunk
-          </a>
-          <a
-            href="#contact"
-            className="text-optimusDarkGray text-lg hover:text-optimusBlue font-medium transition duration-300 hover:underline hover:underline-offset-8 hover:decoration-2"
-          >
-            Kapcsolat
-          </a>
+          {navItems.map((item) => (
+            <ScrollLink
+              key={item.to}
+              to={item.to}
+              smooth={true}
+              duration={500}
+              spy={true}
+              offset={-80}
+              activeClass="active"
+              className="text-optimusDarkGray text-lg font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[30%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
+            >
+              {item.label}
+            </ScrollLink>
+          ))}
         </div>
 
         <div className="hidden lg:block">
-          <a href="#contact">
+          <ScrollLink to="contact" smooth={true} duration={500}>
             <Button className="btn-primary-gradient text-md hover:shadow-xl hover:bg-black transition duration-400">
               Lépj kapcsolatba!
             </Button>
-          </a>
+          </ScrollLink>
         </div>
 
         <div className="lg:hidden">
@@ -68,39 +66,31 @@ const NavBar: React.FC = () => {
       {isMenuOpen && (
         <div className="lg:hidden bg-white px-4 py-5 shadow-lg animate-fade-in">
           <div className="flex flex-col space-y-4">
-            <a
-              href="#home"
-              className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300"
+            {navItems.map((item) => (
+              <ScrollLink
+                key={item.to}
+                to={item.to}
+                smooth={true}
+                duration={500}
+                spy={true}
+                offset={-80}
+                activeClass="active"
+                className="text-optimusDarkGray font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[30%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
+                onClick={toggleMenu}
+              >
+                {item.label}
+              </ScrollLink>
+            ))}
+            <ScrollLink
+              to="contact"
+              smooth={true}
+              duration={500}
               onClick={toggleMenu}
             >
-              Kezdőlap
-            </a>
-            <a
-              href="#services"
-              className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300"
-              onClick={toggleMenu}
-            >
-              Szolgáltatások
-            </a>
-            <a
-              href="#about"
-              className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300"
-              onClick={toggleMenu}
-            >
-              Rólunk
-            </a>
-            <a
-              href="#contact"
-              className="text-optimusDarkGray hover:text-optimusBlue font-medium transition duration-300"
-              onClick={toggleMenu}
-            >
-              Kapcsolat
-            </a>
-            <a href="#contact">
               <Button className="btn-primary-gradient w-full">
                 Lépj kapcsolatba!
               </Button>
-            </a>
+            </ScrollLink>
           </div>
         </div>
       )}

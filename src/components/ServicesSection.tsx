@@ -10,6 +10,7 @@ import {
   Package,
   Cog,
   Warehouse,
+  Building,
 } from "lucide-react";
 
 const services = [
@@ -67,6 +68,12 @@ const services = [
     description:
       "Kiépítése egy átfogó, működő rendszernek, melynek célja, hogy maximálisan ki lehessen használni a karbantartásban lévő erőforrásokat.",
   },
+  {
+    icon: <Building className="h-12 w-12 text-optimusBlue" />,
+    title: "Épületgépészet",
+    description:
+      "Víz-, hő- és légtechnikai rendszerek tervezése, kivitelezése és karbantartása a fenntartható, komfortos épületért.",
+  },
 ];
 
 const ServicesSection: React.FC = () => {
@@ -115,7 +122,7 @@ const ServicesSection: React.FC = () => {
           berendezései élettartamát és csökkentik a váratlan leállásokat
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 [&>*:last-child:nth-child(3n-1)]:md:col-span-2 [&>*:last-child:nth-child(3n-1)]:md:mx-auto [&>*:last-child:nth-child(3n-2)]:lg:col-start-2">
           {services.map((service, index) => (
             <Card
               key={index}

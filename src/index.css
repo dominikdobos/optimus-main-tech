@@ -76,4 +76,13 @@
   .industry-card {
     @apply p-6 bg-white rounded-lg shadow-lg transition-transform duration-300 hover:shadow-xl hover:-translate-y-1;
   }
+
+  /* Nav Link Active & Hover Animations */
+  .active {
+    @apply text-optimusBlue;
+  }
+
+  .active::after {
+    @apply scale-x-100;
+  }
 }
