@@ -36,7 +36,7 @@ const NavBar: React.FC = () => {
               spy={true}
               offset={-80}
               activeClass="active"
-              className="text-optimusDarkGray text-lg font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[30%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
+              className="text-optimusDarkGray text-lg font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[25%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
             >
               {item.label}
             </ScrollLink>
@@ -75,7 +75,7 @@ const NavBar: React.FC = () => {
                 spy={true}
                 offset={-80}
                 activeClass="active"
-                className="text-optimusDarkGray font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[30%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
+                className="text-optimusDarkGray font-medium cursor-pointer transition duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-[10%] after:origin-left after:scale-x-0 after:bg-optimusBlue after:transition-transform after:duration-300 hover:text-optimusBlue [&.active]:text-optimusBlue [&.active]:after:scale-x-100"
                 onClick={toggleMenu}
               >
                 {item.label}
