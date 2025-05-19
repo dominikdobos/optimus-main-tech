@@ -93,25 +93,31 @@ const NavBar: React.FC = () => {
           ))}
         </div>
 
-        <div className="hidden lg:flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
+          {/* Language switcher - visible at all times */}
           <LanguageSwitcher />
-          <Button
-            onClick={() => scrollToSection("contact")}
-            className="btn-primary-gradient text-md hover:shadow-xl hover:bg-black transition duration-400"
-          >
-            {t("nav.cta")}
-          </Button>
-        </div>
 
-        <div className="lg:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleMenu}
-            className="text-optimusDarkGray"
-          >
-            {isMenuOpen ? <X /> : <Menu />}
-          </Button>
+          {/* CTA button - visible only on desktop */}
+          <div className="hidden lg:block">
+            <Button
+              onClick={() => scrollToSection("contact")}
+              className="btn-primary-gradient text-md hover:shadow-xl hover:bg-black transition duration-400"
+            >
+              {t("nav.cta")}
+            </Button>
+          </div>
+
+          {/* Hamburger menu - visible only on mobile */}
+          <div className="lg:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMenu}
+              className="text-optimusDarkGray"
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -131,7 +137,6 @@ const NavBar: React.FC = () => {
                 {t(item.labelKey)}
               </button>
             ))}
-            <LanguageSwitcher />
             <Button
               onClick={() => scrollToSection("contact")}
               className="btn-primary-gradient w-full"
