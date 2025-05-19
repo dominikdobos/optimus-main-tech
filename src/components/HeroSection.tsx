@@ -1,7 +1,10 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/LanguageContext";
 
 const HeroSection: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section
       id="home"
@@ -17,14 +20,12 @@ const HeroSection: React.FC = () => {
           style={{ animationDelay: "0.2s" }}
         >
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Ipari berendezések professzionális karbantartása
+            {t("hero.title")}
           </h1>
-          <p className="text-lg md:text-xl mb-8 text-gray-100 ">
-            Az <span className="font-bold">Optimus Main Tech Kft.</span>{" "}
-            megvalósítható megoldásokat kínálunk ipari berendezések
-            üzemvitelszerű és nagy karbantartások teljes folyamatára. Célunk,
-            hogy üzeme folyamatosan és hatékonyan működhessen.
-          </p>
+          <p
+            className="text-lg md:text-xl mb-8 text-gray-100"
+            dangerouslySetInnerHTML={{ __html: t("hero.description") }}
+          ></p>
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <a href="#contact">
               <Button
@@ -32,7 +33,7 @@ const HeroSection: React.FC = () => {
                 variant="outline"
                 className="bg-white/10 text-white border-white text-lg hover:bg-white/20 hover:text-white"
               >
-                Lépjen kapcsolatba velünk
+                {t("hero.button")}
               </Button>
             </a>
           </div>

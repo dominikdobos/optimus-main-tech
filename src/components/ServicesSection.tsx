@@ -12,72 +12,64 @@ import {
   Warehouse,
   Building,
 } from "lucide-react";
-
-const services = [
-  {
-    icon: <Wrench className="h-12 w-12 text-optimusBlue" />,
-    title: "Üzemvitelszerű karbantartás",
-    description:
-      "Rendszeres ellenőrzések és karbantartási feladatok, amelyek biztosítják a gépek folyamatos és optimális működését.",
-  },
-  {
-    icon: <HardHat className="h-12 w-12 text-optimusBlue" />,
-    title: "Nagyjavítások",
-    description:
-      "Komplex javítási munkálatok és alkatrészcserék, amelyek meghosszabbítják a berendezések élettartamát.",
-  },
-  {
-    icon: <Factory className="h-12 w-12 text-optimusBlue" />,
-    title: "Termelőberendezések karbantartása",
-    description:
-      "Speciális szakértelemmel végzett karbantartási szolgáltatások gyártósorok és ipari berendezések számára.",
-  },
-  {
-    icon: <Calendar className="h-12 w-12 text-optimusBlue" />,
-    title: "Tervezett karbantartás",
-    description:
-      "Előre ütemezett karbantartási munkák, amelyek minimalizálják az állásidőt és maximalizálják a termelékenységet.",
-  },
-  {
-    icon: <Package className="h-12 w-12 text-optimusBlue" />,
-    title: "Alkatrész beszerzés",
-    description:
-      "Eredeti és helyettesítő alkatrészek gyors és megbízható beszerzése minden típusú ipari berendezéshez.",
-  },
-  {
-    icon: <Cog className="h-12 w-12 text-optimusBlue" />,
-    title: "Alkatrész gyártás",
-    description:
-      "Egyedi és nehezen beszerezhető alkatrészek gyártása precíziós technológiával, rövid határidővel.",
-  },
-  {
-    icon: <Settings className="h-12 w-12 text-optimusBlue" />,
-    title: "Állapotfelmérés és diagnosztika",
-    description:
-      "Fejlett technológiák alkalmazása a potenciális problémák korai azonosítására és megelőzésére.",
-  },
-  {
-    icon: <Hammer className="h-12 w-12 text-optimusBlue" />,
-    title: "Géptelepítés és beüzemelés",
-    description:
-      "Szakszerű telepítési és beüzemelési szolgáltatások az új berendezések optimális teljesítményének biztosítására.",
-  },
-  {
-    icon: <Warehouse className="h-12 w-12 text-optimusBlue" />,
-    title: "TPM Rendszerek kialakítása",
-    description:
-      "Kiépítése egy átfogó, működő rendszernek, melynek célja, hogy maximálisan ki lehessen használni a karbantartásban lévő erőforrásokat.",
-  },
-  {
-    icon: <Building className="h-12 w-12 text-optimusBlue" />,
-    title: "Épületgépészet",
-    description:
-      "Víz-, hő- és légtechnikai rendszerek tervezése, kivitelezése és karbantartása a fenntartható, komfortos épületért.",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 const ServicesSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
+
+  const services = [
+    {
+      icon: <Wrench className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.maintenance.title",
+      descriptionKey: "services.maintenance.description",
+    },
+    {
+      icon: <HardHat className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.repairs.title",
+      descriptionKey: "services.repairs.description",
+    },
+    {
+      icon: <Factory className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.equipment.title",
+      descriptionKey: "services.equipment.description",
+    },
+    {
+      icon: <Calendar className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.planned.title",
+      descriptionKey: "services.planned.description",
+    },
+    {
+      icon: <Package className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.parts.title",
+      descriptionKey: "services.parts.description",
+    },
+    {
+      icon: <Cog className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.manufacturing.title",
+      descriptionKey: "services.manufacturing.description",
+    },
+    {
+      icon: <Settings className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.diagnostics.title",
+      descriptionKey: "services.diagnostics.description",
+    },
+    {
+      icon: <Hammer className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.installation.title",
+      descriptionKey: "services.installation.description",
+    },
+    {
+      icon: <Warehouse className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.tpm.title",
+      descriptionKey: "services.tpm.description",
+    },
+    {
+      icon: <Building className="h-12 w-12 text-optimusBlue" />,
+      titleKey: "services.building.title",
+      descriptionKey: "services.building.description",
+    },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -116,11 +108,8 @@ const ServicesSection: React.FC = () => {
       className="py-20 bg-optimusLightGray"
     >
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center">Szolgáltatásaink</h2>
-        <p className="section-subtitle text-center">
-          Teljes körű ipari karbantartási megoldásokat kínálunk, amelyek növelik
-          berendezései élettartamát és csökkentik a váratlan leállásokat
-        </p>
+        <h2 className="section-title text-center">{t("services.title")}</h2>
+        <p className="section-subtitle text-center">{t("services.subtitle")}</p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 [&>*:last-child:nth-child(3n-1)]:md:col-span-2 [&>*:last-child:nth-child(3n-1)]:md:mx-auto [&>*:last-child:nth-child(3n-2)]:lg:col-start-2">
           {services.map((service, index) => (
@@ -134,9 +123,9 @@ const ServicesSection: React.FC = () => {
                     {service.icon}
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-optimusDarkGray">
-                    {service.title}
+                    {t(service.titleKey)}
                   </h3>
-                  <p className="text-gray-600">{service.description}</p>
+                  <p className="text-gray-600">{t(service.descriptionKey)}</p>
                 </div>
               </CardContent>
             </Card>

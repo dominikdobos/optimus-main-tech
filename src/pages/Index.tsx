@@ -5,9 +5,11 @@ import ServicesSection from "@/components/ServicesSection";
 import AboutSection from "@/components/AboutSection";
 import ContactSection from "@/components/ContactSection";
 import FooterSection from "@/components/FooterSection";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 const Index = () => {
   useEffect(() => {
+    // Observer for animation effects
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -18,7 +20,10 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.1,
+        rootMargin: "-120px 0px 0px 0px", // Match the -120px offset used in NavBar
+      }
     );
 
     document.querySelectorAll("section").forEach((section) => {
@@ -40,16 +45,18 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <NavBar />
-      <main className="flex-grow">
-        <HeroSection />
-        <ServicesSection />
-        <AboutSection />
-        <ContactSection />
-      </main>
-      <FooterSection />
-    </div>
+    <LanguageProvider>
+      <div className="min-h-screen flex flex-col">
+        <NavBar />
+        <main className="flex-grow">
+          <HeroSection />
+          <ServicesSection />
+          <AboutSection />
+          <ContactSection />
+        </main>
+        <FooterSection />
+      </div>
+    </LanguageProvider>
   );
 };
 

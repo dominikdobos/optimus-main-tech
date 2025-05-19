@@ -1,16 +1,19 @@
 import React from "react";
 import { Check } from "lucide-react";
-
-const advantages = [
-  "20+ év szakmai tapasztalat",
-  "Képzett és tapasztalt csapatok",
-  "Akár 24/7 készenléti szolgálat",
-  "Modern diagnosztikai eszközök",
-  "Gyors reagálás és problémamegoldás",
-  "Gyors tartalék alkatrész beszerzése",
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 const AboutSection: React.FC = () => {
+  const { t } = useLanguage();
+
+  const advantages = [
+    { key: "about.advantage.experience" },
+    { key: "about.advantage.team" },
+    { key: "about.advantage.service" },
+    { key: "about.advantage.tools" },
+    { key: "about.advantage.response" },
+    { key: "about.advantage.parts" },
+  ];
+
   return (
     <section id="about" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -34,27 +37,20 @@ const AboutSection: React.FC = () => {
             style={{ animationDelay: "0.3s" }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-optimusDarkGray">
-              Az Optimus Main Tech Kft-ről
+              {t("about.title")}
             </h2>
             <p className="text-lg mb-6 text-gray-600">
-              Az Optimus Main Tech Kft. munkatársai több mint két évtizede nyújtanak magas
-              színvonalú ipari karbantartási szolgáltatásokat Magyarországon.
-              Célunk, hogy ügyfeleink termelőberendezései folyamatosan,
-              maximális hatékonysággal működjenek.
+              {t("about.description1")}
             </p>
             <p className="text-lg mb-8 text-gray-600">
-              Szakértő csapatunk mérnökökből és technikusokból áll, akik széles
-              körű tapasztalattal rendelkeznek az ipari berendezések
-              üzemeltetésében és karbantartásában. Modern diagnosztikai
-              eszközökkel és naprakész szaktudással állunk ügyfeleink
-              rendelkezésére.
+              {t("about.description2")}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {advantages.map((advantage, index) => (
                 <div key={index} className="flex items-center">
                   <Check className="h-5 w-5 text-optimusGreen mr-2" />
-                  <span className="text-gray-700">{advantage}</span>
+                  <span className="text-gray-700">{t(advantage.key)}</span>
                 </div>
               ))}
             </div>

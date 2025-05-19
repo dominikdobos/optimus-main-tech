@@ -7,22 +7,33 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { useLanguage } from "@/context/LanguageContext";
 
-// Form validation schema
-const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Név megadása kötelező" }),
-  company: z.string().optional(),
-  email: z.string().email({ message: "Érvényes email cím megadása kötelező" }),
-  phone: z.string().min(6, { message: "Telefonszám megadása kötelező" }),
-  service: z.string().optional(),
-  message: z.string().min(3, { message: "Üzenet megadása kötelező" }),
-  contactEmail: z.string().min(1, { message: "Címzett kiválasztása kötelező" }),
-});
+// Form validation schema with dynamic error messages
+const createContactFormSchema = (t: (key: string) => string) =>
+  z.object({
+    name: z.string().min(2, { message: t("contact.error.name") }),
+    company: z.string().optional(),
+    email: z.string().email({ message: t("contact.error.email") }),
+    phone: z.string().min(6, { message: t("contact.error.phone") }),
+    service: z.string().optional(),
+    message: z.string().min(3, { message: t("contact.error.message") }),
+    contactEmail: z.string().min(1, { message: t("contact.error.recipient") }),
+  });
 
-type ContactFormValues = z.infer<typeof contactFormSchema>;
+type ContactFormValues = {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+  contactEmail: string;
+};
 
 const ContactSection: React.FC = () => {
   const { toast } = useToast();
+  const { t, language } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formValues, setFormValues] = useState<ContactFormValues>({
     name: "",
@@ -52,6 +63,7 @@ const ContactSection: React.FC = () => {
 
   const validateForm = (): boolean => {
     try {
+      const contactFormSchema = createContactFormSchema(t);
       contactFormSchema.parse(formValues);
       setErrors({});
       return true;
@@ -84,8 +96,8 @@ const ContactSection: React.FC = () => {
 
     if (!validateForm()) {
       toast({
-        title: "Hiba",
-        description: "Kérjük, töltse ki a kötelező mezőket megfelelően.",
+        title: t("contact.error"),
+        description: t("contact.error.validation"),
         variant: "destructive",
       });
       return;
@@ -117,8 +129,8 @@ const ContactSection: React.FC = () => {
       if (error) throw error;
 
       toast({
-        title: "Sikeres küldés!",
-        description: "Köszönjük megkeresését, hamarosan válaszolunk!",
+        title: t("contact.success"),
+        description: t("contact.success.message"),
       });
 
       setFormValues({
@@ -133,9 +145,8 @@ const ContactSection: React.FC = () => {
     } catch (error: any) {
       console.error("Form submission error:", error);
       toast({
-        title: "Hiba történt",
-        description:
-          "Az üzenetet nem sikerült elküldeni. Kérjük, próbálja újra később vagy vegye fel velünk a kapcsolatot telefonon.",
+        title: t("contact.error"),
+        description: t("contact.error.message"),
         variant: "destructive",
       });
     } finally {
@@ -143,14 +154,37 @@ const ContactSection: React.FC = () => {
     }
   };
 
+  const serviceOptions = [
+    { value: "", label: t("contact.service.select") },
+    {
+      value: "Üzemvitelszerű karbantartás",
+      label: t("services.maintenance.title"),
+    },
+    { value: "Nagyjavítás", label: t("services.repairs.title") },
+    {
+      value: "Termelőberendezések karbantartása",
+      label: t("services.equipment.title"),
+    },
+    { value: "Tervezett karbantartás", label: t("services.planned.title") },
+    { value: "Alkatrész beszerzés", label: t("services.parts.title") },
+    { value: "Alkatrész gyártás", label: t("services.manufacturing.title") },
+    {
+      value: "Állapotfelmérés és diagnosztika",
+      label: t("services.diagnostics.title"),
+    },
+    {
+      value: "Géptelepítés és beüzemelés",
+      label: t("services.installation.title"),
+    },
+    { value: "TPM rendszerek kialakítása", label: t("services.tpm.title") },
+    { value: "Egyéb", label: t("contact.service.other") },
+  ];
+
   return (
     <section id="contact" className="py-20 bg-optimusLightGray">
       <div className="container mx-auto px-4">
-        <h2 className="section-title text-center">Kapcsolat</h2>
-        <p className="section-subtitle text-center">
-          Vegye fel velünk a kapcsolatot és kérjen személyre szabott ajánlatot
-          ipari karbantartási szolgáltatásainkról
-        </p>
+        <h2 className="section-title text-center">{t("contact.title")}</h2>
+        <p className="section-subtitle text-center">{t("contact.subtitle")}</p>
 
         <div className="flex flex-col lg:flex-row gap-10 mt-12">
           <div className="lg:w-1/2">
@@ -164,14 +198,14 @@ const ContactSection: React.FC = () => {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Név *
+                    {t("contact.name")}
                   </label>
                   <Input
                     id="name"
                     name="name"
                     value={formValues.name}
                     onChange={handleInputChange}
-                    placeholder="Az Ön neve"
+                    placeholder={t("contact.name.placeholder")}
                     className={errors.name ? "border-red-500" : ""}
                   />
                   {errors.name && (
@@ -183,14 +217,14 @@ const ContactSection: React.FC = () => {
                     htmlFor="company"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Cég
+                    {t("contact.company")}
                   </label>
                   <Input
                     id="company"
                     name="company"
                     value={formValues.company}
                     onChange={handleInputChange}
-                    placeholder="Cég neve"
+                    placeholder={t("contact.company.placeholder")}
                   />
                 </div>
               </div>
@@ -200,7 +234,7 @@ const ContactSection: React.FC = () => {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Email *
+                    {t("contact.email")}
                   </label>
                   <Input
                     id="email"
@@ -208,7 +242,7 @@ const ContactSection: React.FC = () => {
                     type="email"
                     value={formValues.email}
                     onChange={handleInputChange}
-                    placeholder="pl. nev@ceg.hu"
+                    placeholder={t("contact.email.placeholder")}
                     className={errors.email ? "border-red-500" : ""}
                   />
                   {errors.email && (
@@ -220,14 +254,14 @@ const ContactSection: React.FC = () => {
                     htmlFor="phone"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Telefonszám *
+                    {t("contact.phone")}
                   </label>
                   <Input
                     id="phone"
                     name="phone"
                     value={formValues.phone}
                     onChange={handleInputChange}
-                    placeholder="+36 30 123 4567"
+                    placeholder={t("contact.phone.placeholder")}
                     className={errors.phone ? "border-red-500" : ""}
                   />
                   {errors.phone && (
@@ -240,7 +274,7 @@ const ContactSection: React.FC = () => {
                   htmlFor="service"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Szolgáltatás típusa
+                  {t("contact.service")}
                 </label>
                 <select
                   id="service"
@@ -249,31 +283,11 @@ const ContactSection: React.FC = () => {
                   onChange={handleInputChange}
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-optimusBlue focus:border-transparent"
                 >
-                  <option value="">Válasszon szolgáltatást</option>
-                  <option value="Üzemvitelszerű karbantartás">
-                    Üzemvitelszerű karbantartás
-                  </option>
-                  <option value="Nagyjavítás">Nagyjavítás</option>
-                  <option value="Termelőberendezések karbantartása">
-                    Termelőberendezések karbantartása
-                  </option>
-                  <option value="Tervezett karbantartás">
-                    Tervezett karbantartás
-                  </option>
-                  <option value="Alkatrész beszerzés">
-                    Alkatrész beszerzés
-                  </option>
-                  <option value="Alkatrész gyártás">Alkatrész gyártás</option>
-                  <option value="Állapotfelmérés és diagnosztika">
-                    Állapotfelmérés és diagnosztika
-                  </option>
-                  <option value="Géptelepítés és beüzemelés">
-                    Géptelepítés és beüzemelés
-                  </option>
-                  <option value="TPM rendszerek kialakítása">
-                    TPM rendszerek kialakítása
-                  </option>
-                  <option value="Egyéb">Egyéb</option>
+                  {serviceOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="mb-6">
@@ -281,7 +295,7 @@ const ContactSection: React.FC = () => {
                   htmlFor="contactEmail"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Email címzett
+                  {t("contact.recipient")}
                 </label>
                 <select
                   id="contactEmail"
@@ -299,14 +313,14 @@ const ContactSection: React.FC = () => {
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  Üzenet *
+                  {t("contact.message")}
                 </label>
                 <Textarea
                   id="message"
                   name="message"
                   value={formValues.message}
                   onChange={handleInputChange}
-                  placeholder="Kérjük, írja le részletesen, miben segíthetünk..."
+                  placeholder={t("contact.message.placeholder")}
                   rows={5}
                   className={errors.message ? "border-red-500" : ""}
                 />
@@ -319,7 +333,9 @@ const ContactSection: React.FC = () => {
                 className="btn-primary-gradient w-full"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Küldés folyamatban..." : "Üzenet küldése"}
+                {isSubmitting
+                  ? t("contact.submit.sending")
+                  : t("contact.submit")}
               </Button>
             </form>
           </div>
@@ -327,13 +343,15 @@ const ContactSection: React.FC = () => {
           <div className="lg:w-1/2">
             <div className="bg-white p-8 rounded-lg shadow-lg h-full">
               <h3 className="text-2xl font-bold mb-6 text-optimusDarkGray">
-                Elérhetőségeink
+                {t("contact.info.title")}
               </h3>
               <div className="space-y-6">
                 <div className="flex items-start">
                   <MapPin className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
-                    <p className="font-medium text-optimusDarkGray">Cím</p>
+                    <p className="font-medium text-optimusDarkGray">
+                      {t("contact.info.address")}
+                    </p>
                     <p className="text-gray-600">
                       2314 Halásztelek, Ilona utca 53.
                     </p>
@@ -343,7 +361,7 @@ const ContactSection: React.FC = () => {
                   <Phone className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
                     <p className="font-medium text-optimusDarkGray">
-                      Telefonszámok
+                      {t("contact.info.phone")}
                     </p>
                     <p className="text-gray-600">+36 20 525 4621</p>
                     <p className="text-gray-600">+36 20 594 1551</p>
@@ -352,7 +370,9 @@ const ContactSection: React.FC = () => {
                 <div className="flex items-start">
                   <Mail className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
-                    <p className="font-medium text-optimusDarkGray">Email</p>
+                    <p className="font-medium text-optimusDarkGray">
+                      {t("contact.info.email")}
+                    </p>
                     <p className="text-gray-600">optimusmaintech@omtkft.hu</p>
                   </div>
                 </div>
@@ -360,13 +380,13 @@ const ContactSection: React.FC = () => {
                   <Clock className="h-6 w-6 text-optimusBlue mr-4 mt-1" />
                   <div>
                     <p className="font-medium text-optimusDarkGray">
-                      Felveheti a kapcsolatot velünk
+                      {t("contact.info.hours.title")}
                     </p>
                     <p className="text-gray-600">
-                      Hétfő - Péntek: 8:00 - 17:00
+                      {t("contact.info.hours.weekdays")}
                     </p>
                     <p className="text-gray-600">
-                      Hétvégén és ünnepnapokon nem elérhető
+                      {t("contact.info.hours.weekend")}
                     </p>
                   </div>
                 </div>
