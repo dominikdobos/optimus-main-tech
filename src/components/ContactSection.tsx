@@ -106,17 +106,6 @@ const ContactSection: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const { error: dbError } = await supabase.from("contacts").insert({
-        name: formValues.name,
-        company: formValues.company || null,
-        email: formValues.email,
-        phone: formValues.phone,
-        service_type: formValues.service || null,
-        message: formValues.message,
-      });
-
-      if (dbError) throw new Error(dbError.message);
-
       const recipientEmail = getRecipientEmail();
 
       const { error } = await supabase.functions.invoke("send-contact-email", {
