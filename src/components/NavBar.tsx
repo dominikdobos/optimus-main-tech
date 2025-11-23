@@ -4,6 +4,7 @@ import { Menu, X } from "lucide-react";
 import { Link as ScrollLink, animateScroll } from "react-scroll";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import logo from "@/assets/omt_logo_full.png";
 
 const NavBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -72,9 +73,11 @@ const NavBar: React.FC = () => {
     <nav className="sticky top-0 z-50 bg-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-optimusBlue to-optimusGreen bg-clip-text text-transparent">
-            Optimus Main Tech Kft.
-          </h1>
+          <img
+            src={logo}
+            alt="Optimus Main Tech Kft."
+            className="h-10 sm:h-12 w-auto"
+          />
         </div>
 
         <div className="hidden lg:flex space-x-8">

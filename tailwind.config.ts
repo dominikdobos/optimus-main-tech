@@ -63,8 +63,8 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				optimusGreen: "#0D8A6A",
-				optimusBlue: "#1A6B9F",
+				optimusGreen: "#006b58",
+				optimusBlue: "#002f6c",
 				optimusDarkGray: "#333333",
 				optimusLightGray: "#F5F5F5",
 			},

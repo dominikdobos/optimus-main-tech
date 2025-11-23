@@ -49,14 +49,14 @@
   }
 
   .btn-primary-gradient:hover {
-    @apply bg-gradient-to-r from-optimusBlue to-optimusGreen/80 text-white;
+    @apply bg-gradient-to-r from-optimusBlue to-optimusGreen/90 text-white;
   }
 
   .hero-gradient {
     background: linear-gradient(
       135deg,
-      rgba(26, 107, 159, 0.95) 0%,
-      rgba(13, 138, 106, 0.95) 100%
+      rgba(0, 47, 108, 0.95) 0%,
+      rgba(0, 107, 88, 0.95) 100%
     );
   }
 
